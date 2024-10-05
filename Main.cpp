@@ -10,22 +10,22 @@
 
 using namespace std;
 using namespace chrono;
-/*//тут сортировка выборкой, решил вспомнить ее заодно
-void selectionSort(vector <int> &a)//сортировка выборкой
+/*//С‚СѓС‚ СЃРѕСЂС‚РёСЂРѕРІРєР° РІС‹Р±РѕСЂРєРѕР№, СЂРµС€РёР» РІСЃРїРѕРјРЅРёС‚СЊ РµРµ Р·Р°РѕРґРЅРѕ
+void selectionSort(vector <int> &a)//СЃРѕСЂС‚РёСЂРѕРІРєР° РІС‹Р±РѕСЂРєРѕР№
 {
-	int mn;//минимальный индекс
-	int n = a.size();//размер вектора
-	for (int i = 0; i < n-1; i++)//ищем мин. индекс
+	int mn;//РјРёРЅРёРјР°Р»СЊРЅС‹Р№ РёРЅРґРµРєСЃ
+	int n = a.size();//СЂР°Р·РјРµСЂ РІРµРєС‚РѕСЂР°
+	for (int i = 0; i < n-1; i++)//РёС‰РµРј РјРёРЅ. РёРЅРґРµРєСЃ
 	{
 		mn = i;
-		for (int q = i + 1; q < n; q++)//цикл выбора индекса
+		for (int q = i + 1; q < n; q++)//С†РёРєР» РІС‹Р±РѕСЂР° РёРЅРґРµРєСЃР°
 		{
 			if (a[mn] > a[q])
 			{
 				mn = q;
 			}
 		}
-		if (mn != i)//заменяем значения двух индексов
+		if (mn != i)//Р·Р°РјРµРЅСЏРµРј Р·РЅР°С‡РµРЅРёСЏ РґРІСѓС… РёРЅРґРµРєСЃРѕРІ
 		{
 			swap(a[i], a[mn]);
 		}
@@ -33,69 +33,69 @@ void selectionSort(vector <int> &a)//сортировка выборкой
 }
 */
 
-//функция для преобразования вектора в пирамиду
+//С„СѓРЅРєС†РёСЏ РґР»СЏ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ РІРµРєС‚РѕСЂР° РІ РїРёСЂР°РјРёРґСѓ
 void piramid(vector<int>& a, int n, int i)
 {
-	int max = i;//наиб. элемент как корень
-	int left = 2 * i + 1;//левый дочерний элемент
-	int right = 2 * i + 2;//правый дочерний элемент
+	int max = i;//РЅР°РёР±. СЌР»РµРјРµРЅС‚ РєР°Рє РєРѕСЂРµРЅСЊ
+	int left = 2 * i + 1;//Р»РµРІС‹Р№ РґРѕС‡РµСЂРЅРёР№ СЌР»РµРјРµРЅС‚
+	int right = 2 * i + 2;//РїСЂР°РІС‹Р№ РґРѕС‡РµСЂРЅРёР№ СЌР»РµРјРµРЅС‚
 
-	//если левый дочерний элемент больше корня
+	//РµСЃР»Рё Р»РµРІС‹Р№ РґРѕС‡РµСЂРЅРёР№ СЌР»РµРјРµРЅС‚ Р±РѕР»СЊС€Рµ РєРѕСЂРЅСЏ
 	if (left<n && a[left]>a[max])
 	{
 		max = left;
 	}
-	//если правый дочерний элемент больше корня
+	//РµСЃР»Рё РїСЂР°РІС‹Р№ РґРѕС‡РµСЂРЅРёР№ СЌР»РµРјРµРЅС‚ Р±РѕР»СЊС€Рµ РєРѕСЂРЅСЏ
 	if (right<n && a[right]>a[max])
 	{
 		max = right;
 	}
 
-	//если наибольший элемент не является корнем
+	//РµСЃР»Рё РЅР°РёР±РѕР»СЊС€РёР№ СЌР»РµРјРµРЅС‚ РЅРµ СЏРІР»СЏРµС‚СЃСЏ РєРѕСЂРЅРµРј
 	if (max != i)
 	{
 		swap(a[i], a[max]);
-		//рекурсивно преобразуем поддерево в кучу
+		//СЂРµРєСѓСЂСЃРёРІРЅРѕ РїСЂРµРѕР±СЂР°Р·СѓРµРј РїРѕРґРґРµСЂРµРІРѕ РІ РєСѓС‡Сѓ
 		piramid(a, n, max);
 	}
 }
 
-//основная функция пирамидальной сортировки
+//РѕСЃРЅРѕРІРЅР°СЏ С„СѓРЅРєС†РёСЏ РїРёСЂР°РјРёРґР°Р»СЊРЅРѕР№ СЃРѕСЂС‚РёСЂРѕРІРєРё
 void piramidSort(vector<int>& a)
 {
 	int n = a.size();
 
-	//построение кучи(пирамиды)
+	//РїРѕСЃС‚СЂРѕРµРЅРёРµ РєСѓС‡Рё(РїРёСЂР°РјРёРґС‹)
 	for (int i = n / 2 - 1; i >= 0; i--)
 	{
 		piramid(a, n, i);
 	}
-	//поочередно извлекаем элементы из кучи
+	//РїРѕРѕС‡РµСЂРµРґРЅРѕ РёР·РІР»РµРєР°РµРј СЌР»РµРјРµРЅС‚С‹ РёР· РєСѓС‡Рё
 	for (int i = n - 1; i > 0; i--)
 	{
-		//перемещаем текущий корень в конец массива
+		//РїРµСЂРµРјРµС‰Р°РµРј С‚РµРєСѓС‰РёР№ РєРѕСЂРµРЅСЊ РІ РєРѕРЅРµС† РјР°СЃСЃРёРІР°
 		swap(a[0], a[i]);
-		//вызываем функцию
+		//ГўГ»Г§Г»ГўГ ГҐГ¬ ГґГіГ­ГЄГ¶ГЁГѕ
 		piramid(a, i, 0);
 	}
 }
 //!
-// Функция для вывода времени в нужном формате
+// Г”ГіГ­ГЄГ¶ГЁГї Г¤Г«Гї ГўГ»ГўГ®Г¤Г  ГўГ°ГҐГ¬ГҐГ­ГЁ Гў Г­ГіГ¦Г­Г®Г¬ ГґГ®Г°Г¬Г ГІГҐ
 void printDuration(microseconds duration) {
-	milliseconds millisec = duration_cast<milliseconds>(duration); // Получаем время в миллисекундах
-	int microsec = duration.count() % 1000; // Остаток времени в микросекундах
+	milliseconds millisec = duration_cast<milliseconds>(duration); // ГЏГ®Г«ГіГ·Г ГҐГ¬ ГўГ°ГҐГ¬Гї Гў Г¬ГЁГ«Г«ГЁГ±ГҐГЄГіГ­Г¤Г Гµ
+	int microsec = duration.count() % 1000; // ГЋГ±ГІГ ГІГ®ГЄ ГўГ°ГҐГ¬ГҐГ­ГЁ Гў Г¬ГЁГЄГ°Г®Г±ГҐГЄГіГ­Г¤Г Гµ
 
 	cout << millisec.count()
 		<< setfill('0') << setw(3) << microsec
 		<< " micorsec" << endl;
 }
 
-// Функция сравнения для qsort
+// Г”ГіГ­ГЄГ¶ГЁГї Г±Г°Г ГўГ­ГҐГ­ГЁГї Г¤Г«Гї qsort
 int compare(const void* a, const void* b) {
 	return (*(int*)a - *(int*)b);
 }
 
-//функция рандомного числа
+//ГґГіГ­ГЄГ¶ГЁГї Г°Г Г­Г¤Г®Г¬Г­Г®ГЈГ® Г·ГЁГ±Г«Г 
 int getRandomNumber(int min, int max) 
 {
 	return rand() % (max - min) + min;
@@ -105,292 +105,292 @@ int getRandomNumber(int min, int max)
 int main()
 {
 	setlocale(LC_ALL, "ru");
-	ifstream input("d16.txt");//чтение файла
-	ofstream output("ar16.txt");//запись файла
-	//проверка наличия файлов:
+	ifstream input("d16.txt");//Г·ГІГҐГ­ГЁГҐ ГґГ Г©Г«Г 
+	ofstream output("ar16.txt");//Г§Г ГЇГЁГ±Гј ГґГ Г©Г«Г 
+	//ГЇГ°Г®ГўГҐГ°ГЄГ  Г­Г Г«ГЁГ·ГЁГї ГґГ Г©Г«Г®Гў:
 	if (!input)
 	{
-		cerr << "ошибка открытия считываемого файла" << endl;
+		cerr << "Г®ГёГЁГЎГЄГ  Г®ГІГЄГ°Г»ГІГЁГї Г±Г·ГЁГІГ»ГўГ ГҐГ¬Г®ГЈГ® ГґГ Г©Г«Г " << endl;
 		return 16;
 	}
 	if (!output)
 	{
-		cerr << "ошибка открытия вписываемого файла" << endl;
+		cerr << "Г®ГёГЁГЎГЄГ  Г®ГІГЄГ°Г»ГІГЁГї ГўГЇГЁГ±Г»ГўГ ГҐГ¬Г®ГЈГ® ГґГ Г©Г«Г " << endl;
 		return -16;
 	}
 
 	vector<int> a,aCopy;//razmer a.size(), ochistka a.clear()		//!
-	int num;//переменная для цикла
+	int num;//ГЇГҐГ°ГҐГ¬ГҐГ­Г­Г Гї Г¤Г«Гї Г¶ГЁГЄГ«Г 
 
-	while (input >> num)//добавление чисел файла в вектор
+	while (input >> num)//Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г·ГЁГ±ГҐГ« ГґГ Г©Г«Г  Гў ГўГҐГЄГІГ®Г°
 	{
 		a.push_back(num);
 	}
 	//!
 	aCopy = a;
-	// Замер времени сортировки пирамидальной
+	// Г‡Г Г¬ГҐГ° ГўГ°ГҐГ¬ГҐГ­ГЁ Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ ГЇГЁГ°Г Г¬ГЁГ¤Г Г«ГјГ­Г®Г©
 	high_resolution_clock::time_point startPiramid = high_resolution_clock::now();
-	piramidSort(a);//сортировка пирамидой
+	piramidSort(a);//Г±Г®Г°ГІГЁГ°Г®ГўГЄГ  ГЇГЁГ°Г Г¬ГЁГ¤Г®Г©
 	high_resolution_clock::time_point stopPiramid = high_resolution_clock::now();
-	// Подсчет времени выполнения сортировки пирамиды
+	// ГЏГ®Г¤Г±Г·ГҐГІ ГўГ°ГҐГ¬ГҐГ­ГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ ГЇГЁГ°Г Г¬ГЁГ¤Г»
 	microseconds durationPiramid = duration_cast<microseconds>(stopPiramid - startPiramid);
 	cout << "Piramid sort time for " << a.size() << " elements: ";
 	printDuration(durationPiramid);
 
-	// Замер времени стандартной функции qsort
+	// Г‡Г Г¬ГҐГ° ГўГ°ГҐГ¬ГҐГ­ГЁ Г±ГІГ Г­Г¤Г Г°ГІГ­Г®Г© ГґГіГ­ГЄГ¶ГЁГЁ qsort
 	high_resolution_clock::time_point startQSort = high_resolution_clock::now();
 	qsort(aCopy.data(), aCopy.size(), sizeof(int), compare);
 	high_resolution_clock::time_point stopQSort = high_resolution_clock::now();
 
-	// Подсчет времени выполнения qsort
+	// ГЏГ®Г¤Г±Г·ГҐГІ ГўГ°ГҐГ¬ГҐГ­ГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї qsort
 	microseconds durationQSort = duration_cast<microseconds>(stopQSort - startQSort);
 	cout << "qsort time for " << aCopy.size() << " elements: ";
 	printDuration(durationQSort);
 	//!
-	for (const int& num : a)//цикл для записи сортированных чисел
+	for (const int& num : a)//Г¶ГЁГЄГ« Г¤Г«Гї Г§Г ГЇГЁГ±ГЁ Г±Г®Г°ГІГЁГ°Г®ГўГ Г­Г­Г»Гµ Г·ГЁГ±ГҐГ«
 	{
 		output << num << endl;
 	}
-	//закрытие файлов+очистка вектора
+	//Г§Г ГЄГ°Г»ГІГЁГҐ ГґГ Г©Г«Г®Гў+Г®Г·ГЁГ±ГІГЄГ  ГўГҐГЄГІГ®Г°Г 
 	input.close();
 	output.close();
 	a.clear();
 
-	//открытие новых файлов
-	/*Примечание: далее код будет выполнять аналогичные действия сортировки, нужны для других текстовых файлов!*/
-	//для 100 элементов:
+	//Г®ГІГЄГ°Г»ГІГЁГҐ Г­Г®ГўГ»Гµ ГґГ Г©Г«Г®Гў
+	/*ГЏГ°ГЁГ¬ГҐГ·Г Г­ГЁГҐ: Г¤Г Г«ГҐГҐ ГЄГ®Г¤ ГЎГіГ¤ГҐГІ ГўГ»ГЇГ®Г«Г­ГїГІГј Г Г­Г Г«Г®ГЈГЁГ·Г­Г»ГҐ Г¤ГҐГ©Г±ГІГўГЁГї Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ, Г­ГіГ¦Г­Г» Г¤Г«Гї Г¤Г°ГіГЈГЁГµ ГІГҐГЄГ±ГІГ®ГўГ»Гµ ГґГ Г©Г«Г®Гў!*/
+	//Г¤Г«Гї 100 ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў:
 	input.open("d100.txt");
 	output.open("ar100.txt");
-	//проверка наличия файлов:
+	//ГЇГ°Г®ГўГҐГ°ГЄГ  Г­Г Г«ГЁГ·ГЁГї ГґГ Г©Г«Г®Гў:
 	if (!input)
 	{
-		cerr << "ошибка открытия считываемого файла" << endl;
+		cerr << "Г®ГёГЁГЎГЄГ  Г®ГІГЄГ°Г»ГІГЁГї Г±Г·ГЁГІГ»ГўГ ГҐГ¬Г®ГЈГ® ГґГ Г©Г«Г " << endl;
 		return 16;
 	}
 	if (!output)
 	{
-		cerr << "ошибка открытия вписываемого файла" << endl;
+		cerr << "Г®ГёГЁГЎГЄГ  Г®ГІГЄГ°Г»ГІГЁГї ГўГЇГЁГ±Г»ГўГ ГҐГ¬Г®ГЈГ® ГґГ Г©Г«Г " << endl;
 		return -16;
 	}
-	while (input >> num)//добавление чисел файла в вектор
+	while (input >> num)//Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г·ГЁГ±ГҐГ« ГґГ Г©Г«Г  Гў ГўГҐГЄГІГ®Г°
 	{
 		a.push_back(num);
 	}
 	//!
 	aCopy = a;
-	// Замер времени сортировки пирамидальной
+	// Г‡Г Г¬ГҐГ° ГўГ°ГҐГ¬ГҐГ­ГЁ Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ ГЇГЁГ°Г Г¬ГЁГ¤Г Г«ГјГ­Г®Г©
 	startPiramid = high_resolution_clock::now();
-	piramidSort(a);//сортировка пирамидой
+	piramidSort(a);//Г±Г®Г°ГІГЁГ°Г®ГўГЄГ  ГЇГЁГ°Г Г¬ГЁГ¤Г®Г©
 	stopPiramid = high_resolution_clock::now();
-	// Подсчет времени выполнения сортировки пирамидальной
+	// ГЏГ®Г¤Г±Г·ГҐГІ ГўГ°ГҐГ¬ГҐГ­ГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ ГЇГЁГ°Г Г¬ГЁГ¤Г Г«ГјГ­Г®Г©
 	durationPiramid = duration_cast<microseconds>(stopPiramid - startPiramid);
 	cout << "Piramid sort time for " << a.size() << " elements: ";
 	printDuration(durationPiramid);
 
-	// Замер времени стандартной функции qsort
+	// Г‡Г Г¬ГҐГ° ГўГ°ГҐГ¬ГҐГ­ГЁ Г±ГІГ Г­Г¤Г Г°ГІГ­Г®Г© ГґГіГ­ГЄГ¶ГЁГЁ qsort
 	startQSort = high_resolution_clock::now();
 	qsort(aCopy.data(), aCopy.size(), sizeof(int), compare);
 	stopQSort = high_resolution_clock::now();
 
-	// Подсчет времени выполнения qsort
+	// ГЏГ®Г¤Г±Г·ГҐГІ ГўГ°ГҐГ¬ГҐГ­ГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї qsort
 	durationQSort = duration_cast<microseconds>(stopQSort - startQSort);
 	cout << "qsort time for " << aCopy.size() << " elements: ";
 	printDuration(durationQSort);
 	//!
-	for (const int& num : a)//цикл для записи сортированных чисел
+	for (const int& num : a)//Г¶ГЁГЄГ« Г¤Г«Гї Г§Г ГЇГЁГ±ГЁ Г±Г®Г°ГІГЁГ°Г®ГўГ Г­Г­Г»Гµ Г·ГЁГ±ГҐГ«
 	{
 		output << num << endl;
 	}
-	//закрытие файлов+очистка вектора
+	//Г§Г ГЄГ°Г»ГІГЁГҐ ГґГ Г©Г«Г®Гў+Г®Г·ГЁГ±ГІГЄГ  ГўГҐГЄГІГ®Г°Г 
 	input.close();
 	output.close();
 	a.clear();
 
-	//для 500 элементов:
+	//Г¤Г«Гї 500 ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў:
 	input.open("d500.txt");
 	output.open("ar500.txt");
-	//проверка наличия файлов:
+	//ГЇГ°Г®ГўГҐГ°ГЄГ  Г­Г Г«ГЁГ·ГЁГї ГґГ Г©Г«Г®Гў:
 	if (!input)
 	{
-		cerr << "ошибка открытия считываемого файла" << endl;
+		cerr << "Г®ГёГЁГЎГЄГ  Г®ГІГЄГ°Г»ГІГЁГї Г±Г·ГЁГІГ»ГўГ ГҐГ¬Г®ГЈГ® ГґГ Г©Г«Г " << endl;
 		return 16;
 	}
 	if (!output)
 	{
-		cerr << "ошибка открытия вписываемого файла" << endl;
+		cerr << "Г®ГёГЁГЎГЄГ  Г®ГІГЄГ°Г»ГІГЁГї ГўГЇГЁГ±Г»ГўГ ГҐГ¬Г®ГЈГ® ГґГ Г©Г«Г " << endl;
 		return -16;
 	}
-	while (input >> num)//добавление чисел файла в вектор
+	while (input >> num)//Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г·ГЁГ±ГҐГ« ГґГ Г©Г«Г  Гў ГўГҐГЄГІГ®Г°
 	{
 		a.push_back(num);
 	}
 	//!
 	aCopy = a;
-	// Замер времени сортировки пирамидальной
+	// Г‡Г Г¬ГҐГ° ГўГ°ГҐГ¬ГҐГ­ГЁ Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ ГЇГЁГ°Г Г¬ГЁГ¤Г Г«ГјГ­Г®Г©
 	startPiramid = high_resolution_clock::now();
-	piramidSort(a);//сортировка пирамидой
+	piramidSort(a);//Г±Г®Г°ГІГЁГ°Г®ГўГЄГ  ГЇГЁГ°Г Г¬ГЁГ¤Г®Г©
 	stopPiramid = high_resolution_clock::now();
-	// Подсчет времени выполнения сортировки пирамидой
+	// ГЏГ®Г¤Г±Г·ГҐГІ ГўГ°ГҐГ¬ГҐГ­ГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ ГЇГЁГ°Г Г¬ГЁГ¤Г®Г©
 	durationPiramid = duration_cast<microseconds>(stopPiramid - startPiramid);
 	cout << "Piramid sort time for " << a.size() << " elements: ";
 	printDuration(durationPiramid);
 
-	// Замер времени стандартной функции qsort
+	// Г‡Г Г¬ГҐГ° ГўГ°ГҐГ¬ГҐГ­ГЁ Г±ГІГ Г­Г¤Г Г°ГІГ­Г®Г© ГґГіГ­ГЄГ¶ГЁГЁ qsort
 	startQSort = high_resolution_clock::now();
 	qsort(aCopy.data(), aCopy.size(), sizeof(int), compare);
 	stopQSort = high_resolution_clock::now();
 
-	// Подсчет времени выполнения qsort
+	// ГЏГ®Г¤Г±Г·ГҐГІ ГўГ°ГҐГ¬ГҐГ­ГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї qsort
 	durationQSort = duration_cast<microseconds>(stopQSort - startQSort);
 	cout << "qsort time for " << aCopy.size() << " elements: ";
 	printDuration(durationQSort);
 	//!
-	for (const int& num : a)//цикл для записи сортированных чисел
+	for (const int& num : a)//Г¶ГЁГЄГ« Г¤Г«Гї Г§Г ГЇГЁГ±ГЁ Г±Г®Г°ГІГЁГ°Г®ГўГ Г­Г­Г»Гµ Г·ГЁГ±ГҐГ«
 	{
 		output << num << endl;
 	}
-	//закрытие файлов+очистка вектора
+	//Г§Г ГЄГ°Г»ГІГЁГҐ ГґГ Г©Г«Г®Гў+Г®Г·ГЁГ±ГІГЄГ  ГўГҐГЄГІГ®Г°Г 
 	input.close();
 	output.close();
 	a.clear();
 
-	//для 1000 элементов:
+	//Г¤Г«Гї 1000 ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў:
 	input.open("d1000.txt");
 	output.open("ar1000.txt");
-	//проверка наличия файлов:
+	//ГЇГ°Г®ГўГҐГ°ГЄГ  Г­Г Г«ГЁГ·ГЁГї ГґГ Г©Г«Г®Гў:
 	if (!input)
 	{
-		cerr << "ошибка открытия считываемого файла" << endl;
+		cerr << "Г®ГёГЁГЎГЄГ  Г®ГІГЄГ°Г»ГІГЁГї Г±Г·ГЁГІГ»ГўГ ГҐГ¬Г®ГЈГ® ГґГ Г©Г«Г " << endl;
 		return 16;
 	}
 	if (!output)
 	{
-		cerr << "ошибка открытия вписываемого файла" << endl;
+		cerr << "Г®ГёГЁГЎГЄГ  Г®ГІГЄГ°Г»ГІГЁГї ГўГЇГЁГ±Г»ГўГ ГҐГ¬Г®ГЈГ® ГґГ Г©Г«Г " << endl;
 		return -16;
 	}
-	while (input >> num)//добавление чисел файла в вектор
+	while (input >> num)//Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г·ГЁГ±ГҐГ« ГґГ Г©Г«Г  Гў ГўГҐГЄГІГ®Г°
 	{
 		a.push_back(num);
 	}
 	//!
 	aCopy = a;
-	// Замер времени сортировки пирамидальной
+	// Г‡Г Г¬ГҐГ° ГўГ°ГҐГ¬ГҐГ­ГЁ Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ ГЇГЁГ°Г Г¬ГЁГ¤Г Г«ГјГ­Г®Г©
 	startPiramid = high_resolution_clock::now();
-	piramidSort(a);//сортировка пирамидальная
+	piramidSort(a);//Г±Г®Г°ГІГЁГ°Г®ГўГЄГ  ГЇГЁГ°Г Г¬ГЁГ¤Г Г«ГјГ­Г Гї
 	stopPiramid = high_resolution_clock::now();
-	// Подсчет времени выполнения пирамидальной сортировки
+	// ГЏГ®Г¤Г±Г·ГҐГІ ГўГ°ГҐГ¬ГҐГ­ГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї ГЇГЁГ°Г Г¬ГЁГ¤Г Г«ГјГ­Г®Г© Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ
 	durationPiramid = duration_cast<microseconds>(stopPiramid - startPiramid);
 	cout << "Piramid sort time for " << a.size() << " elements: ";
 	printDuration(durationPiramid);
 
-	// Замер времени стандартной функции qsort
+	// Г‡Г Г¬ГҐГ° ГўГ°ГҐГ¬ГҐГ­ГЁ Г±ГІГ Г­Г¤Г Г°ГІГ­Г®Г© ГґГіГ­ГЄГ¶ГЁГЁ qsort
 	startQSort = high_resolution_clock::now();
 	qsort(aCopy.data(), aCopy.size(), sizeof(int), compare);
 	stopQSort = high_resolution_clock::now();
 
-	// Подсчет времени выполнения qsort
+	// ГЏГ®Г¤Г±Г·ГҐГІ ГўГ°ГҐГ¬ГҐГ­ГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї qsort
 	durationQSort = duration_cast<microseconds>(stopQSort - startQSort);
 	cout << "qsort time for " << aCopy.size() << " elements: ";
 	printDuration(durationQSort);
 	//!
-	for (const int& num : a)//цикл для записи сортированных чисел
+	for (const int& num : a)//Г¶ГЁГЄГ« Г¤Г«Гї Г§Г ГЇГЁГ±ГЁ Г±Г®Г°ГІГЁГ°Г®ГўГ Г­Г­Г»Гµ Г·ГЁГ±ГҐГ«
 	{
 		output << num << endl;
 	}
-	//закрытие файлов+очистка вектора
+	//Г§Г ГЄГ°Г»ГІГЁГҐ ГґГ Г©Г«Г®Гў+Г®Г·ГЁГ±ГІГЄГ  ГўГҐГЄГІГ®Г°Г 
 	input.close();
 	output.close();
 	a.clear();
 
-	//для 5000 элементов:
+	//Г¤Г«Гї 5000 ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў:
 	input.open("d5000.txt");
 	output.open("ar5000.txt");
-	//проверка наличия файлов:
+	//ГЇГ°Г®ГўГҐГ°ГЄГ  Г­Г Г«ГЁГ·ГЁГї ГґГ Г©Г«Г®Гў:
 	if (!input)
 	{
-		cerr << "ошибка открытия считываемого файла" << endl;
+		cerr << "Г®ГёГЁГЎГЄГ  Г®ГІГЄГ°Г»ГІГЁГї Г±Г·ГЁГІГ»ГўГ ГҐГ¬Г®ГЈГ® ГґГ Г©Г«Г " << endl;
 		return 16;
 	}
 	if (!output)
 	{
-		cerr << "ошибка открытия вписываемого файла" << endl;
+		cerr << "Г®ГёГЁГЎГЄГ  Г®ГІГЄГ°Г»ГІГЁГї ГўГЇГЁГ±Г»ГўГ ГҐГ¬Г®ГЈГ® ГґГ Г©Г«Г " << endl;
 		return -16;
 	}
-	while (input >> num)//добавление чисел файла в вектор
+	while (input >> num)//Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г·ГЁГ±ГҐГ« ГґГ Г©Г«Г  Гў ГўГҐГЄГІГ®Г°
 	{
 		a.push_back(num);
 	}
 	//!
 	aCopy = a;
-	// Замер времени сортировки пирамидальной
+	// Г‡Г Г¬ГҐГ° ГўГ°ГҐГ¬ГҐГ­ГЁ Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ ГЇГЁГ°Г Г¬ГЁГ¤Г Г«ГјГ­Г®Г©
 	startPiramid = high_resolution_clock::now();
-	piramidSort(a);//сортировка пирамидальная
+	piramidSort(a);//Г±Г®Г°ГІГЁГ°Г®ГўГЄГ  ГЇГЁГ°Г Г¬ГЁГ¤Г Г«ГјГ­Г Гї
 	stopPiramid = high_resolution_clock::now();
-	// Подсчет времени пирамидальной сортировки
+	// ГЏГ®Г¤Г±Г·ГҐГІ ГўГ°ГҐГ¬ГҐГ­ГЁ ГЇГЁГ°Г Г¬ГЁГ¤Г Г«ГјГ­Г®Г© Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ
 	durationPiramid = duration_cast<microseconds>(stopPiramid - startPiramid);
 	cout << "Piramid sort time for " << a.size() << " elements: ";
 	printDuration(durationPiramid);
 
-	// Замер времени стандартной функции qsort
+	// Г‡Г Г¬ГҐГ° ГўГ°ГҐГ¬ГҐГ­ГЁ Г±ГІГ Г­Г¤Г Г°ГІГ­Г®Г© ГґГіГ­ГЄГ¶ГЁГЁ qsort
 	startQSort = high_resolution_clock::now();
 	qsort(aCopy.data(), aCopy.size(), sizeof(int), compare);
 	stopQSort = high_resolution_clock::now();
 
-	// Подсчет времени выполнения qsort
+	// ГЏГ®Г¤Г±Г·ГҐГІ ГўГ°ГҐГ¬ГҐГ­ГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї qsort
 	durationQSort = duration_cast<microseconds>(stopQSort - startQSort);
 	cout << "qsort time for " << aCopy.size() << " elements: ";
 	printDuration(durationQSort);
 	//!
-	for (const int& num : a)//цикл для записи сортированных чисел
+	for (const int& num : a)//Г¶ГЁГЄГ« Г¤Г«Гї Г§Г ГЇГЁГ±ГЁ Г±Г®Г°ГІГЁГ°Г®ГўГ Г­Г­Г»Гµ Г·ГЁГ±ГҐГ«
 	{
 		output << num << endl;
 	}
-	//закрытие файлов+очистка вектора
+	//Г§Г ГЄГ°Г»ГІГЁГҐ ГґГ Г©Г«Г®Гў+Г®Г·ГЁГ±ГІГЄГ  ГўГҐГЄГІГ®Г°Г 
 	input.close();
 	output.close();
 	a.clear();
-	//окончание программы:
-	cout << "программа выполнена" << endl;
-	cout << "хотите еще поиграться? 1-сортировка с произвольными рандомными числами" << endl;
+	//Г®ГЄГ®Г­Г·Г Г­ГЁГҐ ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»:
+	cout << "ГЇГ°Г®ГЈГ°Г Г¬Г¬Г  ГўГ»ГЇГ®Г«Г­ГҐГ­Г " << endl;
+	cout << "ГµГ®ГІГЁГІГҐ ГҐГ№ГҐ ГЇГ®ГЁГЈГ°Г ГІГјГ±Гї? 1-Г±Г®Г°ГІГЁГ°Г®ГўГЄГ  Г± ГЇГ°Г®ГЁГ§ГўГ®Г«ГјГ­Г»Г¬ГЁ Г°Г Г­Г¤Г®Г¬Г­Г»Г¬ГЁ Г·ГЁГ±Г«Г Г¬ГЁ" << endl;
 	cin >> num;
 	while (num == 1)
 	{
-		int k,min,max;//количество чисел,минимальное и максимальное число
-		cout << "введите количество, минимальное и максимальное число" << endl;
+		int k,min,max;//ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г·ГЁГ±ГҐГ«,Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г®ГҐ ГЁ Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г®ГҐ Г·ГЁГ±Г«Г®
+		cout << "ГўГўГҐГ¤ГЁГІГҐ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ®, Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г®ГҐ ГЁ Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г®ГҐ Г·ГЁГ±Г«Г®" << endl;
 		cin >> k >> min >> max;
 		for (int i = 0; i < k; i++) 
 		{
-			a.push_back(getRandomNumber(min,max));// диапазон [min, max]
+			a.push_back(getRandomNumber(min,max));// Г¤ГЁГ ГЇГ Г§Г®Г­ [min, max]
 		}
 		output.open("any.txt");
-		//проверка наличия файлов:
+		//ГЇГ°Г®ГўГҐГ°ГЄГ  Г­Г Г«ГЁГ·ГЁГї ГґГ Г©Г«Г®Гў:
 		if (!output)
 		{
-			cerr << "ошибка открытия вписываемого файла" << endl;
+			cerr << "Г®ГёГЁГЎГЄГ  Г®ГІГЄГ°Г»ГІГЁГї ГўГЇГЁГ±Г»ГўГ ГҐГ¬Г®ГЈГ® ГґГ Г©Г«Г " << endl;
 			return -16;
 		}
 		//!
 		aCopy = a;
-		// Замер времени сортировки пирамидальной
+		// Г‡Г Г¬ГҐГ° ГўГ°ГҐГ¬ГҐГ­ГЁ Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ ГЇГЁГ°Г Г¬ГЁГ¤Г Г«ГјГ­Г®Г©
 		startPiramid = high_resolution_clock::now();
-		piramidSort(a);//сортировка пирамидой
+		piramidSort(a);//Г±Г®Г°ГІГЁГ°Г®ГўГЄГ  ГЇГЁГ°Г Г¬ГЁГ¤Г®Г©
 		stopPiramid = high_resolution_clock::now();
-		// Подсчет времени выполнения сортировки пирамидальной
+		// ГЏГ®Г¤Г±Г·ГҐГІ ГўГ°ГҐГ¬ГҐГ­ГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ ГЇГЁГ°Г Г¬ГЁГ¤Г Г«ГјГ­Г®Г©
 		durationPiramid = duration_cast<microseconds>(stopPiramid - startPiramid);
 		cout << "Piramid sort time for " << a.size() << " elements: ";
 		printDuration(durationPiramid);
 
-		// Замер времени стандартной функции qsort
+		// Г‡Г Г¬ГҐГ° ГўГ°ГҐГ¬ГҐГ­ГЁ Г±ГІГ Г­Г¤Г Г°ГІГ­Г®Г© ГґГіГ­ГЄГ¶ГЁГЁ qsort
 		startQSort = high_resolution_clock::now();
 		qsort(aCopy.data(), aCopy.size(), sizeof(int), compare);
 		stopQSort = high_resolution_clock::now();
 
-		// Подсчет времени выполнения qsort
+		// ГЏГ®Г¤Г±Г·ГҐГІ ГўГ°ГҐГ¬ГҐГ­ГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї qsort
 		durationQSort = duration_cast<microseconds>(stopQSort - startQSort);
 		cout << "qsort time for " << aCopy.size() << " elements: ";
 		printDuration(durationQSort);
 		//!
-		for (const int& num : a)//цикл для записи сортированных чисел
+		for (const int& num : a)//Г¶ГЁГЄГ« Г¤Г«Гї Г§Г ГЇГЁГ±ГЁ Г±Г®Г°ГІГЁГ°Г®ГўГ Г­Г­Г»Гµ Г·ГЁГ±ГҐГ«
 		{
 			output << num << endl;
 		}
@@ -398,7 +398,7 @@ int main()
 		input.close();
 		output.close();
 		a.clear();
-		cout << "повторить 1?" << endl; cin >> num;
+		cout << "ГЇГ®ГўГІГ®Г°ГЁГІГј 1?" << endl; cin >> num;
 	}
 	return 0;
 }
