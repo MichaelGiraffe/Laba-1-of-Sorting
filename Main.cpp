@@ -75,27 +75,27 @@ void piramidSort(vector<int>& a)
 	{
 		//перемещаем текущий корень в конец массива
 		swap(a[0], a[i]);
-		//âûçûâàåì ôóíêöèþ
+		//вызываем функцию
 		piramid(a, i, 0);
 	}
 }
 //!
-// Ôóíêöèÿ äëÿ âûâîäà âðåìåíè â íóæíîì ôîðìàòå
+// Функция для вывода времени в нужном формате
 void printDuration(microseconds duration) {
-	milliseconds millisec = duration_cast<milliseconds>(duration); // Ïîëó÷àåì âðåìÿ â ìèëëèñåêóíäàõ
-	int microsec = duration.count() % 1000; // Îñòàòîê âðåìåíè â ìèêðîñåêóíäàõ
+	milliseconds millisec = duration_cast<milliseconds>(duration); // Получаем время в миллисекундах
+	int microsec = duration.count() % 1000; // Остаток времени в микросекундах
 
 	cout << millisec.count()
 		<< setfill('0') << setw(3) << microsec
 		<< " micorsec" << endl;
 }
 
-// Ôóíêöèÿ ñðàâíåíèÿ äëÿ qsort
+// Функция сравнения для qsort
 int compare(const void* a, const void* b) {
 	return (*(int*)a - *(int*)b);
 }
 
-//ôóíêöèÿ ðàíäîìíîãî ÷èñëà
+//функция рандомного числа
 int getRandomNumber(int min, int max) 
 {
 	return rand() % (max - min) + min;
@@ -105,292 +105,292 @@ int getRandomNumber(int min, int max)
 int main()
 {
 	setlocale(LC_ALL, "ru");
-	ifstream input("d16.txt");//÷òåíèå ôàéëà
-	ofstream output("ar16.txt");//çàïèñü ôàéëà
-	//ïðîâåðêà íàëè÷èÿ ôàéëîâ:
+	ifstream input("d16.txt");//чтение файла
+	ofstream output("ar16.txt");//запись файла
+	//проверка наличия файлов:
 	if (!input)
 	{
-		cerr << "îøèáêà îòêðûòèÿ ñ÷èòûâàåìîãî ôàéëà" << endl;
+		cerr << "ошибка открытия считываемого файла" << endl;
 		return 16;
 	}
 	if (!output)
 	{
-		cerr << "îøèáêà îòêðûòèÿ âïèñûâàåìîãî ôàéëà" << endl;
+		cerr << "ошибка открытия вписываемого файла" << endl;
 		return -16;
 	}
 
 	vector<int> a,aCopy;//razmer a.size(), ochistka a.clear()		//!
-	int num;//ïåðåìåííàÿ äëÿ öèêëà
+	int num;//переменная для цикла
 
-	while (input >> num)//äîáàâëåíèå ÷èñåë ôàéëà â âåêòîð
+	while (input >> num)//добавление чисел файла в вектор
 	{
 		a.push_back(num);
 	}
 	//!
 	aCopy = a;
-	// Çàìåð âðåìåíè ñîðòèðîâêè ïèðàìèäàëüíîé
+	// Замер времени сортировки пирамидальной
 	high_resolution_clock::time_point startPiramid = high_resolution_clock::now();
-	piramidSort(a);//ñîðòèðîâêà ïèðàìèäîé
+	piramidSort(a);//сортировка пирамидой
 	high_resolution_clock::time_point stopPiramid = high_resolution_clock::now();
-	// Ïîäñ÷åò âðåìåíè âûïîëíåíèÿ ñîðòèðîâêè ïèðàìèäû
+	// Подсчет времени выполнения сортировки пирамиды
 	microseconds durationPiramid = duration_cast<microseconds>(stopPiramid - startPiramid);
 	cout << "Piramid sort time for " << a.size() << " elements: ";
 	printDuration(durationPiramid);
 
-	// Çàìåð âðåìåíè ñòàíäàðòíîé ôóíêöèè qsort
+	// Замер времени стандартной функции qsort
 	high_resolution_clock::time_point startQSort = high_resolution_clock::now();
 	qsort(aCopy.data(), aCopy.size(), sizeof(int), compare);
 	high_resolution_clock::time_point stopQSort = high_resolution_clock::now();
 
-	// Ïîäñ÷åò âðåìåíè âûïîëíåíèÿ qsort
+	// Подсчет времени выполнения qsort
 	microseconds durationQSort = duration_cast<microseconds>(stopQSort - startQSort);
 	cout << "qsort time for " << aCopy.size() << " elements: ";
 	printDuration(durationQSort);
 	//!
-	for (const int& num : a)//öèêë äëÿ çàïèñè ñîðòèðîâàííûõ ÷èñåë
+	for (const int& num : a)//цикл для записи сортированных чисел
 	{
 		output << num << endl;
 	}
-	//çàêðûòèå ôàéëîâ+î÷èñòêà âåêòîðà
+	//закрытие файлов+очистка вектора
 	input.close();
 	output.close();
 	a.clear();
 
-	//îòêðûòèå íîâûõ ôàéëîâ
-	/*Ïðèìå÷àíèå: äàëåå êîä áóäåò âûïîëíÿòü àíàëîãè÷íûå äåéñòâèÿ ñîðòèðîâêè, íóæíû äëÿ äðóãèõ òåêñòîâûõ ôàéëîâ!*/
-	//äëÿ 100 ýëåìåíòîâ:
+	//открытие новых файлов
+	/*Примечание: далее код будет выполнять аналогичные действия сортировки, нужны для других текстовых файлов!*/
+	//для 100 элементов:
 	input.open("d100.txt");
 	output.open("ar100.txt");
-	//ïðîâåðêà íàëè÷èÿ ôàéëîâ:
+	//проверка наличия файлов:
 	if (!input)
 	{
-		cerr << "îøèáêà îòêðûòèÿ ñ÷èòûâàåìîãî ôàéëà" << endl;
+		cerr << "ошибка открытия считываемого файла" << endl;
 		return 16;
 	}
 	if (!output)
 	{
-		cerr << "îøèáêà îòêðûòèÿ âïèñûâàåìîãî ôàéëà" << endl;
+		cerr << "ошибка открытия вписываемого файла" << endl;
 		return -16;
 	}
-	while (input >> num)//äîáàâëåíèå ÷èñåë ôàéëà â âåêòîð
+	while (input >> num)//добавление чисел файла в вектор
 	{
 		a.push_back(num);
 	}
 	//!
 	aCopy = a;
-	// Çàìåð âðåìåíè ñîðòèðîâêè ïèðàìèäàëüíîé
+	// Замер времени сортировки пирамидальной
 	startPiramid = high_resolution_clock::now();
-	piramidSort(a);//ñîðòèðîâêà ïèðàìèäîé
+	piramidSort(a);//сортировка пирамидой
 	stopPiramid = high_resolution_clock::now();
-	// Ïîäñ÷åò âðåìåíè âûïîëíåíèÿ ñîðòèðîâêè ïèðàìèäàëüíîé
+	// Подсчет времени выполнения сортировки пирамидальной
 	durationPiramid = duration_cast<microseconds>(stopPiramid - startPiramid);
 	cout << "Piramid sort time for " << a.size() << " elements: ";
 	printDuration(durationPiramid);
 
-	// Çàìåð âðåìåíè ñòàíäàðòíîé ôóíêöèè qsort
+	// Замер времени стандартной функции qsort
 	startQSort = high_resolution_clock::now();
 	qsort(aCopy.data(), aCopy.size(), sizeof(int), compare);
 	stopQSort = high_resolution_clock::now();
 
-	// Ïîäñ÷åò âðåìåíè âûïîëíåíèÿ qsort
+	// Подсчет времени выполнения qsort
 	durationQSort = duration_cast<microseconds>(stopQSort - startQSort);
 	cout << "qsort time for " << aCopy.size() << " elements: ";
 	printDuration(durationQSort);
 	//!
-	for (const int& num : a)//öèêë äëÿ çàïèñè ñîðòèðîâàííûõ ÷èñåë
+	for (const int& num : a)//цикл для записи сортированных чисел
 	{
 		output << num << endl;
 	}
-	//çàêðûòèå ôàéëîâ+î÷èñòêà âåêòîðà
+	//закрытие файлов+очистка вектора
 	input.close();
 	output.close();
 	a.clear();
 
-	//äëÿ 500 ýëåìåíòîâ:
+	//для 500 элементов:
 	input.open("d500.txt");
 	output.open("ar500.txt");
-	//ïðîâåðêà íàëè÷èÿ ôàéëîâ:
+	//проверка наличия файлов:
 	if (!input)
 	{
-		cerr << "îøèáêà îòêðûòèÿ ñ÷èòûâàåìîãî ôàéëà" << endl;
+		cerr << "ошибка открытия считываемого файла" << endl;
 		return 16;
 	}
 	if (!output)
 	{
-		cerr << "îøèáêà îòêðûòèÿ âïèñûâàåìîãî ôàéëà" << endl;
+		cerr << "ошибка открытия вписываемого файла" << endl;
 		return -16;
 	}
-	while (input >> num)//äîáàâëåíèå ÷èñåë ôàéëà â âåêòîð
+	while (input >> num)//добавление чисел файла в вектор
 	{
 		a.push_back(num);
 	}
 	//!
 	aCopy = a;
-	// Çàìåð âðåìåíè ñîðòèðîâêè ïèðàìèäàëüíîé
+	// Замер времени сортировки пирамидальной
 	startPiramid = high_resolution_clock::now();
-	piramidSort(a);//ñîðòèðîâêà ïèðàìèäîé
+	piramidSort(a);//сортировка пирамидой
 	stopPiramid = high_resolution_clock::now();
-	// Ïîäñ÷åò âðåìåíè âûïîëíåíèÿ ñîðòèðîâêè ïèðàìèäîé
+	// Подсчет времени выполнения сортировки пирамидой
 	durationPiramid = duration_cast<microseconds>(stopPiramid - startPiramid);
 	cout << "Piramid sort time for " << a.size() << " elements: ";
 	printDuration(durationPiramid);
 
-	// Çàìåð âðåìåíè ñòàíäàðòíîé ôóíêöèè qsort
+	// Замер времени стандартной функции qsort
 	startQSort = high_resolution_clock::now();
 	qsort(aCopy.data(), aCopy.size(), sizeof(int), compare);
 	stopQSort = high_resolution_clock::now();
 
-	// Ïîäñ÷åò âðåìåíè âûïîëíåíèÿ qsort
+	// Подсчет времени выполнения qsort
 	durationQSort = duration_cast<microseconds>(stopQSort - startQSort);
 	cout << "qsort time for " << aCopy.size() << " elements: ";
 	printDuration(durationQSort);
 	//!
-	for (const int& num : a)//öèêë äëÿ çàïèñè ñîðòèðîâàííûõ ÷èñåë
+	for (const int& num : a)//цикл для записи сортированных чисел
 	{
 		output << num << endl;
 	}
-	//çàêðûòèå ôàéëîâ+î÷èñòêà âåêòîðà
+	//закрытие файлов+очистка вектора
 	input.close();
 	output.close();
 	a.clear();
 
-	//äëÿ 1000 ýëåìåíòîâ:
+	//для 1000 элементов:
 	input.open("d1000.txt");
 	output.open("ar1000.txt");
-	//ïðîâåðêà íàëè÷èÿ ôàéëîâ:
+	//проверка наличия файлов:
 	if (!input)
 	{
-		cerr << "îøèáêà îòêðûòèÿ ñ÷èòûâàåìîãî ôàéëà" << endl;
+		cerr << "ошибка открытия считываемого файла" << endl;
 		return 16;
 	}
 	if (!output)
 	{
-		cerr << "îøèáêà îòêðûòèÿ âïèñûâàåìîãî ôàéëà" << endl;
+		cerr << "ошибка открытия вписываемого файла" << endl;
 		return -16;
 	}
-	while (input >> num)//äîáàâëåíèå ÷èñåë ôàéëà â âåêòîð
+	while (input >> num)//добавление чисел файла в вектор
 	{
 		a.push_back(num);
 	}
 	//!
 	aCopy = a;
-	// Çàìåð âðåìåíè ñîðòèðîâêè ïèðàìèäàëüíîé
+	// Замер времени сортировки пирамидальной
 	startPiramid = high_resolution_clock::now();
-	piramidSort(a);//ñîðòèðîâêà ïèðàìèäàëüíàÿ
+	piramidSort(a);//сортировка пирамидальная
 	stopPiramid = high_resolution_clock::now();
-	// Ïîäñ÷åò âðåìåíè âûïîëíåíèÿ ïèðàìèäàëüíîé ñîðòèðîâêè
+	// Подсчет времени выполнения пирамидальной сортировки
 	durationPiramid = duration_cast<microseconds>(stopPiramid - startPiramid);
 	cout << "Piramid sort time for " << a.size() << " elements: ";
 	printDuration(durationPiramid);
 
-	// Çàìåð âðåìåíè ñòàíäàðòíîé ôóíêöèè qsort
+	// Замер времени стандартной функции qsort
 	startQSort = high_resolution_clock::now();
 	qsort(aCopy.data(), aCopy.size(), sizeof(int), compare);
 	stopQSort = high_resolution_clock::now();
 
-	// Ïîäñ÷åò âðåìåíè âûïîëíåíèÿ qsort
+	// Подсчет времени выполнения qsort
 	durationQSort = duration_cast<microseconds>(stopQSort - startQSort);
 	cout << "qsort time for " << aCopy.size() << " elements: ";
 	printDuration(durationQSort);
 	//!
-	for (const int& num : a)//öèêë äëÿ çàïèñè ñîðòèðîâàííûõ ÷èñåë
+	for (const int& num : a)//цикл для записи сортированных чисел
 	{
 		output << num << endl;
 	}
-	//çàêðûòèå ôàéëîâ+î÷èñòêà âåêòîðà
+	//закрытие файлов+очистка вектора
 	input.close();
 	output.close();
 	a.clear();
 
-	//äëÿ 5000 ýëåìåíòîâ:
+	//для 5000 элементов:
 	input.open("d5000.txt");
 	output.open("ar5000.txt");
-	//ïðîâåðêà íàëè÷èÿ ôàéëîâ:
+	//проверка наличия файлов:
 	if (!input)
 	{
-		cerr << "îøèáêà îòêðûòèÿ ñ÷èòûâàåìîãî ôàéëà" << endl;
+		cerr << "ошибка открытия считываемого файла" << endl;
 		return 16;
 	}
 	if (!output)
 	{
-		cerr << "îøèáêà îòêðûòèÿ âïèñûâàåìîãî ôàéëà" << endl;
+		cerr << "ошибка открытия вписываемого файла" << endl;
 		return -16;
 	}
-	while (input >> num)//äîáàâëåíèå ÷èñåë ôàéëà â âåêòîð
+	while (input >> num)//добавление чисел файла в вектор
 	{
 		a.push_back(num);
 	}
 	//!
 	aCopy = a;
-	// Çàìåð âðåìåíè ñîðòèðîâêè ïèðàìèäàëüíîé
+	// Замер времени сортировки пирамидальной
 	startPiramid = high_resolution_clock::now();
-	piramidSort(a);//ñîðòèðîâêà ïèðàìèäàëüíàÿ
+	piramidSort(a);//сортировка пирамидальная
 	stopPiramid = high_resolution_clock::now();
-	// Ïîäñ÷åò âðåìåíè ïèðàìèäàëüíîé ñîðòèðîâêè
+	// Подсчет времени пирамидальной сортировки
 	durationPiramid = duration_cast<microseconds>(stopPiramid - startPiramid);
 	cout << "Piramid sort time for " << a.size() << " elements: ";
 	printDuration(durationPiramid);
 
-	// Çàìåð âðåìåíè ñòàíäàðòíîé ôóíêöèè qsort
+	// Замер времени стандартной функции qsort
 	startQSort = high_resolution_clock::now();
 	qsort(aCopy.data(), aCopy.size(), sizeof(int), compare);
 	stopQSort = high_resolution_clock::now();
 
-	// Ïîäñ÷åò âðåìåíè âûïîëíåíèÿ qsort
+	// Подсчет времени выполнения qsort
 	durationQSort = duration_cast<microseconds>(stopQSort - startQSort);
 	cout << "qsort time for " << aCopy.size() << " elements: ";
 	printDuration(durationQSort);
 	//!
-	for (const int& num : a)//öèêë äëÿ çàïèñè ñîðòèðîâàííûõ ÷èñåë
+	for (const int& num : a)//цикл для записи сортированных чисел
 	{
 		output << num << endl;
 	}
-	//çàêðûòèå ôàéëîâ+î÷èñòêà âåêòîðà
+	//закрытие файлов+очистка вектора
 	input.close();
 	output.close();
 	a.clear();
-	//îêîí÷àíèå ïðîãðàììû:
-	cout << "ïðîãðàììà âûïîëíåíà" << endl;
-	cout << "õîòèòå åùå ïîèãðàòüñÿ? 1-ñîðòèðîâêà ñ ïðîèçâîëüíûìè ðàíäîìíûìè ÷èñëàìè" << endl;
+	//окончание программы:
+	cout << "программа выполнена" << endl;
+	cout << "хотите еще поиграться? 1-сортировка с произвольными рандомными числами" << endl;
 	cin >> num;
 	while (num == 1)
 	{
-		int k,min,max;//êîëè÷åñòâî ÷èñåë,ìèíèìàëüíîå è ìàêñèìàëüíîå ÷èñëî
-		cout << "ââåäèòå êîëè÷åñòâî, ìèíèìàëüíîå è ìàêñèìàëüíîå ÷èñëî" << endl;
+		int k,min,max;//количество чисел,минимальное и максимальное число
+		cout << "введите количество, минимальное и максимальное число" << endl;
 		cin >> k >> min >> max;
 		for (int i = 0; i < k; i++) 
 		{
-			a.push_back(getRandomNumber(min,max));// äèàïàçîí [min, max]
+			a.push_back(getRandomNumber(min,max));// диапазон [min, max]
 		}
 		output.open("any.txt");
-		//ïðîâåðêà íàëè÷èÿ ôàéëîâ:
+		//проверка наличия файлов:
 		if (!output)
 		{
-			cerr << "îøèáêà îòêðûòèÿ âïèñûâàåìîãî ôàéëà" << endl;
+			cerr << "ошибка открытия вписываемого файла" << endl;
 			return -16;
 		}
 		//!
 		aCopy = a;
-		// Çàìåð âðåìåíè ñîðòèðîâêè ïèðàìèäàëüíîé
+		// Замер времени сортировки пирамидальной
 		startPiramid = high_resolution_clock::now();
-		piramidSort(a);//ñîðòèðîâêà ïèðàìèäîé
+		piramidSort(a);//сортировка пирамидой
 		stopPiramid = high_resolution_clock::now();
-		// Ïîäñ÷åò âðåìåíè âûïîëíåíèÿ ñîðòèðîâêè ïèðàìèäàëüíîé
+		// Подсчет времени выполнения сортировки пирамидальной
 		durationPiramid = duration_cast<microseconds>(stopPiramid - startPiramid);
 		cout << "Piramid sort time for " << a.size() << " elements: ";
 		printDuration(durationPiramid);
 
-		// Çàìåð âðåìåíè ñòàíäàðòíîé ôóíêöèè qsort
+		// Замер времени стандартной функции qsort
 		startQSort = high_resolution_clock::now();
 		qsort(aCopy.data(), aCopy.size(), sizeof(int), compare);
 		stopQSort = high_resolution_clock::now();
 
-		// Ïîäñ÷åò âðåìåíè âûïîëíåíèÿ qsort
+		// Подсчет времени выполнения qsort
 		durationQSort = duration_cast<microseconds>(stopQSort - startQSort);
 		cout << "qsort time for " << aCopy.size() << " elements: ";
 		printDuration(durationQSort);
 		//!
-		for (const int& num : a)//öèêë äëÿ çàïèñè ñîðòèðîâàííûõ ÷èñåë
+		for (const int& num : a)//цикл для записи сортированных чисел
 		{
 			output << num << endl;
 		}
@@ -398,7 +398,7 @@ int main()
 		input.close();
 		output.close();
 		a.clear();
-		cout << "ïîâòîðèòü 1?" << endl; cin >> num;
+		cout << "повторить 1?" << endl; cin >> num;
 	}
 	return 0;
 }
